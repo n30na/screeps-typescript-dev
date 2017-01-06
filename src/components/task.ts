@@ -1,7 +1,7 @@
 import { log } from "../components/support/log";
 import { subtask } from "../components/subtask";
 import { reservation } from "../components/reservation";
-import  { generateId } from "../components/support/idGenerator";
+import { generateId } from "../components/support/idGenerator";
 
 export class task {
   protected id: string;
@@ -28,7 +28,7 @@ export class task {
   get subtasks() {
     if(this.subtasks === undefined) {
       this.subtasks = new Array();
-      for(let subtaskId :string in this.subtaskIds) {
+      for(let subtaskId in this.subtaskIds) {
         this.subtasks.concat(new subtask(subtaskId)); // test
       }
     }
@@ -42,6 +42,4 @@ export class task {
   run() {
 
   }
-
-
 }
