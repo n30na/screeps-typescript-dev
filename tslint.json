@@ -6,6 +6,7 @@
     "forin": false,
     "interface-name": [false],
     "no-console": [false],
+    "no-trailing-whitespace": false,
     "variable-name": [
       true,
       "ban-keywords",

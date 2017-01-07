@@ -1,0 +1,8 @@
+Memory {
+  myObjects {
+    tasks {}
+    subtasks {}
+    reservations {}
+  }
+  structures {}
+}
