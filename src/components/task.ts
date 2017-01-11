@@ -6,7 +6,7 @@ import { generateId } from "../components/support/idGenerator";
 export class task {
   protected id: string;
   protected creepId: string;
-  protected _creep: Creep;
+  protected _creep: any;
   protected subtaskIds: string[];
   protected _subtasks: subtask[] | undefined = undefined;
   protected _currentSubtask: subtask | undefined = undefined;
@@ -14,6 +14,15 @@ export class task {
   protected reservationIds: string[];
   protected _reservations: reservation[] | undefined = undefined;
   protected _completed: boolean = false;
+
+  public static getById(id: string): task {
+    let t = Memory.myObjects.tasks[id];
+    return new task(t.id, t.creepId, t.subtaskIds, t.currentSubtaskIndex, t.reservationIds, t.completed);
+  }
+
+  public static buildNew(): task {
+
+  }
 
   constructor(id: string, creepId: string, subtaskIds: string[], currentSubtaskIndex: number,
               reservationIds: string[], completed: boolean) {
@@ -23,12 +32,6 @@ export class task {
     this.currentSubtaskIndex = currentSubtaskIndex;
     this.reservationIds = reservationIds;
     this._completed = completed;
-  }
-
-  static getById(id: string) {
-    let result = new task();
-
-    return result;
   }
 
   get creep() {
@@ -69,18 +72,21 @@ export class task {
     return this._completed;
   }
 
-  run() {
-    if(this.completed) return 0;
+  run(): number {
+    if (this.completed) {
+      return 0;
+    }
 
-    let result = 0;
-    if(result = this.currentSubtask.run() !== 0) {
+    let result = this.currentSubtask.run();
+    if (result !== 0) {
       return result;
     } else if (this.currentSubtaskIndex === this.subtasks.length) {
       this._completed = true;
       return 0;
     } else {
       this.currentSubtaskIndex++;
-
+      this._currentSubtask = undefined;
+      return this.currentSubtask.run();
     }
   }
 }

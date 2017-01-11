@@ -10,14 +10,24 @@ export class reservation {
   protected _createdAt: number;
   protected _active: boolean = false;
 
-  public constructor() {
+  public static getById(id: string): reservation {
+    let r = Memory.myObjects.reservations[id];
+    return new reservation(r.id, r.targetId, r.creepId, r.resourceType, r.amount, r.createdAt, r.active);
+  }
+
+  public static build(): reservation {
 
   }
 
-  public static getById(id: string): reservation {
-    let result = new reservation();
-
-    return result;
+  public constructor(id: string, targetId: string, creepId: string, resourceType: string,
+                     amount: number, createdAt: number, active: boolean) {
+    this.id = id;
+    this.targetId = targetId;
+    this.creepId = creepId;
+    this._resourceType = resourceType;
+    this._amount = amount;
+    this._createdAt = createdAt;
+    this._active = active;
   }
 
   get createdAt(): number {
