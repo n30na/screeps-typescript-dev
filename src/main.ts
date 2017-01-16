@@ -2,6 +2,7 @@ import * as CreepManager from "./components/creeps/creepManager";
 import * as Config from "/config/config";
 
 import { log } from "./components/support/log";
+import {operation} from "./components/operation";
 
 // Any code written outside the `loop()` method is executed only when the
 // Screeps system reloads your script.
@@ -14,6 +15,7 @@ if (Config.USE_PATHFINDER) {
 }
 
 log.info("load");
+
 
 /**
  * Screeps system expects this "loop" method in main.js to run the
