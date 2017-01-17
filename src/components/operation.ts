@@ -1,5 +1,15 @@
-export abstract class operation {
+export class operation {
   protected name: string;
+  protected runFunction: Function;
 
-  public abstract run(creep: Creep, params: any): number;
+  public constructor(name: string, run: Function) {
+    this.name = name;
+    this.runFunction = run; // (creep: Creep, params: any): number
+  }
+
+  run() :number {
+    return this.runFunction();
+  }
+
+  //public run(creep: Creep, params: any): number;
 }
