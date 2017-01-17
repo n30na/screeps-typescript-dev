@@ -3,12 +3,17 @@ import { operation } from "../components/operation"
 export class subtask {
   protected id: string;
   protected operationName: string;
+  protected taskOperation: operation;
   protected creepId: string;
   protected _creep: any = undefined;
   protected params: Object;
 
-  constructor() {
-    //this.id = Newid;
+  constructor(id: string, operationName: string, taskOperation, creepId: string, params: Object) {
+    this.id = id;
+    this.operationName = operationName;
+    this.taskOperation = taskOperation;
+    this.creepId = creepId;
+    this.params = params;
   }
 
   static getById(id: string) {
