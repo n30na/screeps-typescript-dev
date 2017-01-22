@@ -31,6 +31,7 @@ export function loop() {
   if (!Memory.uuid || Memory.uuid > 100) {
     Memory.uuid = 0;
   }
+  Memory.
 
   for (let i in Game.rooms) {
     let room: Room = Game.rooms[i];
