@@ -1,6 +1,6 @@
 
 export class reservation {
-  protected id: string;
+  protected _id: string;
   protected targetId: string;
   protected _target: RoomObject | undefined = undefined;
   protected creepId: string;
@@ -21,7 +21,7 @@ export class reservation {
 
   public constructor(id: string, targetId: string, creepId: string, resourceType: string,
                      amount: number, createdAt: number, active: boolean) {
-    this.id = id;
+    this._id = id;
     this.targetId = targetId;
     this.creepId = creepId;
     this._resourceType = resourceType;
@@ -38,6 +38,9 @@ export class reservation {
   }
   get active(): boolean {
     return this._active;
+  }
+  get id(): string {
+    return this._id;
   }
 
   public activate(): number {

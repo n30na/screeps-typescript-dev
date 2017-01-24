@@ -2,6 +2,7 @@ import { log } from "../components/support/log";
 import { subtask } from "../components/subtask";
 import { reservation } from "../components/reservation";
 import { generateId } from "../components/support/idGenerator";
+import {stripComments} from "tslint/lib/utils";
 
 export class task {
   protected id: string;
@@ -20,8 +21,23 @@ export class task {
     return new task(t.id, t.creepId, t.subtaskIds, t.currentSubtaskIndex, t.reservationIds, t.completed);
   }
 
-  public static buildNew(): task {
+  public static build(creep: Creep, subtasks: subtask[], reservations: reservation[]): task {
+    let id: string = generateId();
+    let creepId: string = creep.id;
+    let subtaskIds: string[] = new Array();
+    let reservationsIds: string[] = new Array;
 
+    for(let iterator in subtasks) {
+      subtaskIds[iterator] = subtasks[iterator].id;
+    }
+    for(let iterator in reservations) {
+      reservationsIds[iterator] = reservations[iterator].id;
+    }
+
+    let newtask = new task(id, creepId, subtaskIds, 0, reservationsIds, false);
+    newtask.writeMemory();
+
+    return newtask;
   }
 
   constructor(id: string, creepId: string, subtaskIds: string[], currentSubtaskIndex: number,
@@ -88,5 +104,13 @@ export class task {
       this._currentSubtask = undefined;
       return this.currentSubtask.run();
     }
+  }
+
+  writeMemory() {
+
+  }
+
+  deleteMemory() {
+
   }
 }
