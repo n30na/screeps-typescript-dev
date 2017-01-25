@@ -34,6 +34,7 @@ function prepEnvironment() {
   if (!Game.local) {
     Game.local = {subtasks: {}, tasks: {}, reservations: {}};
   }
+
   // if (!Game.local.subtasks) {
   //   Game.local.subtasks = new Array();
   // }

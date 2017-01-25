@@ -1,10 +1,10 @@
 
 import {generateId} from "./support/idGenerator";
-import {stripComments} from "tslint/lib/utils";
+
 export class reservation {
   protected _id: string;
   protected targetId: string;
-  protected _target: RoomObject | undefined = undefined;
+  protected _target: Structure | undefined = undefined;
   protected creepId: string;
   protected _creep: Creep | undefined = undefined;
   protected _resourceType: string;
@@ -20,7 +20,7 @@ export class reservation {
     return <reservation>Game.local.reservations[id];
   }
 
-  public static build(target: RoomObject, creep: Creep, resourceType: string, amount: number): reservation {
+  public static build(target: Structure, creep: Creep, resourceType: string, amount: number): reservation {
     let id = generateId();
     let createdAt = Game.time;
     let active = false;
