@@ -4,6 +4,9 @@ import * as Operations from "./components/operations/all"
 
 import { log } from "./components/support/log";
 import {operation} from "./components/operation";
+import {subtask} from "./components/subtask";
+import {task} from "./components/task";
+import {reservation} from "./components/reservation";
 
 // Any code written outside the `loop()` method is executed only when the
 // Screeps system reloads your script.
@@ -26,11 +29,30 @@ log.info("load");
  *
  * @export
  */
+
+function prepEnvironment() {
+  if (!Game.local) {
+    Game.local = {subtasks: {}, tasks: {}, reservations: {}};
+  }
+  // if (!Game.local.subtasks) {
+  //   Game.local.subtasks = new Array();
+  // }
+  // if (!Game.local.tasks) {
+  //   Game.local.tasks = new Array();
+  // }
+  // if (!Game.local.reservations) {
+  //   Game.local.reservations = new Array();
+  // }
+}
+
 export function loop() {
   // Check memory for null or out of bounds custom objects
   if (!Memory.uuid || Memory.uuid > 100) {
     Memory.uuid = 0;
   }
+  prepEnvironment();
+
+
 
   for (let i in Game.rooms) {
     let room: Room = Game.rooms[i];

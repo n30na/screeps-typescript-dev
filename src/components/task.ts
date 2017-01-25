@@ -1,8 +1,6 @@
-import { log } from "../components/support/log";
 import { subtask } from "../components/subtask";
 import { reservation } from "../components/reservation";
 import { generateId } from "../components/support/idGenerator";
-import {stripComments} from "tslint/lib/utils";
 
 export class task {
   protected id: string;
@@ -17,8 +15,11 @@ export class task {
   protected _completed: boolean = false;
 
   public static getById(id: string): task {
-    let t = Memory.myObjects.tasks[id];
-    return new task(t.id, t.creepId, t.subtaskIds, t.currentSubtaskIndex, t.reservationIds, t.completed);
+    if(!Game.local.tasks[id]) {
+      let t = Memory.tasks[id];
+      Game.local.tasks[id] = new task(id, t.creepId, t.subtaskIds, t.currentSubtaskIndex, t.reservationIds, t.completed);
+    }
+    return <task>Game.local.tasks[id];
   }
 
   public static build(creep: Creep, subtasks: subtask[], reservations: reservation[]): task {
@@ -107,10 +108,25 @@ export class task {
   }
 
   writeMemory() {
+    let taskMemory: TaskMemory = <TaskMemory>{};
+    taskMemory.id = this.id;
+    taskMemory.creepId = this.creepId;
+    taskMemory.subtaskIds = this.subtaskIds;
+    taskMemory.currentSubtaskIndex = this.currentSubtaskIndex;
+    taskMemory.completed = this.completed;
 
+    Memory.tasks[this.id] = taskMemory;
   }
 
   deleteMemory() {
-
+    delete Memory.tasks[this.id];
   }
+}
+
+export interface TaskMemory {
+  id: string;
+  creepId: string;
+  subtaskIds: string[];
+  currentSubtaskIndex: number;
+  completed: boolean;
 }

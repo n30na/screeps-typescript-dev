@@ -7,8 +7,8 @@ export class operation {
     this.runFunction = run; // (creep: Creep, params: any): number
   }
 
-  run() :number {
-    return this.runFunction();
+  run(creep: Creep, params: Object) :number {
+    return this.runFunction(creep, params);
   }
 
   get name() {

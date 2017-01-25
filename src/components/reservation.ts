@@ -1,4 +1,6 @@
 
+import {generateId} from "./support/idGenerator";
+import {stripComments} from "tslint/lib/utils";
 export class reservation {
   protected _id: string;
   protected targetId: string;
@@ -11,12 +13,21 @@ export class reservation {
   protected _active: boolean = false;
 
   public static getById(id: string): reservation {
-    let r = Memory.myObjects.reservations[id];
-    return new reservation(r.id, r.targetId, r.creepId, r.resourceType, r.amount, r.createdAt, r.active);
+    if(!Game.local.reservations[id]) {
+      let r = Memory.reservations[id];
+      Game.local.reservations[id] = new reservation(id, r.targetId, r.creepId, r.resourceType, r.amount, r.createdAt, r.active);
+    }
+    return <reservation>Game.local.reservations[id];
   }
 
-  public static build(): reservation {
+  public static build(target: RoomObject, creep: Creep, resourceType: string, amount: number): reservation {
+    let id = generateId();
+    let createdAt = Game.time;
+    let active = false;
 
+    let newReservation = new reservation(id, target.id, creep.id, resourceType, amount, createdAt, active);
+    newReservation.writeMemory();
+    return newReservation;
   }
 
   public constructor(id: string, targetId: string, creepId: string, resourceType: string,
@@ -63,4 +74,32 @@ export class reservation {
     }
     return result;
   }
+
+  public writeMemory() {
+    let reservationMemory: ReservationMemory = <ReservationMemory>{};
+
+    reservationMemory.creepId = this.creepId;
+    reservationMemory.targetId = this.targetId;
+    reservationMemory.id = this.id;
+    reservationMemory.resourceType = this._resourceType;
+    reservationMemory.amount = this._amount;
+    reservationMemory.createdAt = this.createdAt;
+    reservationMemory.active = this.active;
+
+    Memory.reservations[this.id] = reservationMemory;
+  }
+
+  public deleteMemory() {
+    delete Memory.reservations[this.id];
+  }
+}
+
+export interface ReservationMemory {
+  id: string;
+  creepId: string;
+  targetId: string;
+  resourceType: string;
+  amount: number;
+  createdAt: number;
+  active: boolean;
 }

@@ -1,6 +1,6 @@
 import { operation } from "../components/operation"
 import {generateId} from "./support/idGenerator";
-import * as Operations from "./operations/all"
+import {all as Operations} from "./operations/all"
 
 export class subtask {
   protected _id: string;
@@ -13,15 +13,16 @@ export class subtask {
   public constructor(id: string, operationName: string, creepId: string, params: Object) {
     this._id = id;
     this.operationName = operationName;
-    this.taskOperation = taskOperation;
     this.creepId = creepId;
     this.params = params;
   }
 
-  public static getById(id: string) {
-    let result = new subtask();
-
-    return result;
+  public static getById(id: string): subtask {
+    if(!Game.local.subtasks[id]) {
+      let s = Memory.subtasks[id];
+      Game.local.subtasks[id] = new subtask(id, s.operationName, s.creepId, s.params);
+    }
+    return <subtask>Game.local.subtasks[id];
   }
 
   public static build(taskOperation: operation, creep: Creep, params: Object): subtask {
@@ -36,7 +37,7 @@ export class subtask {
 
   get operation(): operation {
     if(!this._taskOperation) {
-      //this._taskOperation = Operations[this.operationName];
+      this._taskOperation = Operations[this.operationName];
     }
     return this._taskOperation;
   }
@@ -57,10 +58,23 @@ export class subtask {
   }
 
   public writeMemory() {
+    let subtaskMemory: SubtaskMemory = <SubtaskMemory>{};
+    subtaskMemory.creepId = this.creepId;
+    subtaskMemory.operationName = this.operationName;
+    subtaskMemory.id = this.id;
+    subtaskMemory.params = this.params;
 
+    Memory.subtasks[this.id] = subtaskMemory;
   }
 
   public deleteMemory() {
-
+    delete Memory.subtasks[this.id];
   }
+}
+
+export interface SubtaskMemory {
+  creepId: string;
+  operationName: string;
+  id: string;
+  params: Object;
 }
