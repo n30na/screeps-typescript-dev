@@ -4,13 +4,19 @@ import {reservation} from "../reservation";
  */
 
 Structure.prototype.reservations = function (): reservation[] {
+  let stuructureReservations: reservation[] =  new Array();
 
+  return stuructureReservations;
 }
 Structure.prototype.resourceAvailable = function (resourceType: string): number {
+  let strucutreResourceAvailable: number = 0;
 
+  return strucutreResourceAvailable;
 }
 Structure.prototype.capacityRemaining = function (): number {
+  let structureCapacityRemaining: number = 0;
 
+  return structureCapacityRemaining;
 }
 
 export class StructureMemory {

@@ -22,6 +22,12 @@ export class task {
     return <task>Game.local.tasks[id];
   }
 
+  public static getByCreep(creep: Creep): task[] {
+    let creepTasks: task[] = new Array();
+
+    return creepTasks;
+  }
+
   public static build(creep: Creep, subtasks: subtask[], reservations: reservation[]): task {
     let id: string = generateId();
     let creepId: string = creep.id;

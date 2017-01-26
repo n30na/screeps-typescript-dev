@@ -1,5 +1,6 @@
 
 import {generateId} from "./support/idGenerator";
+import {subtask} from "./subtask";
 
 export class reservation {
   protected _id: string;
@@ -18,6 +19,32 @@ export class reservation {
       Game.local.reservations[id] = new reservation(id, r.targetId, r.creepId, r.resourceType, r.amount, r.createdAt, r.active);
     }
     return <reservation>Game.local.reservations[id];
+  }
+
+  public static getByTargetId(id: string): reservation[] {
+    let targetReservations: reservation[] = new Array();
+
+    return targetReservations;
+  }
+
+  public static getByTarget(target: Structure): reservation[] {
+    let id: string = target.id;
+    let targetReservations: reservation[] = new Array();
+
+    return targetReservations;
+  }
+
+  public static getByCreep(creep: Creep): reservation[] {
+    let id: string = creep.id;
+    let creepReservations: reservation[] = new Array();
+
+    return creepReservations;
+  }
+
+  public static getByCreepId(id: string): reservation[] {
+    let creepReservations: reservation[] = new Array();
+
+    return creepReservations;
   }
 
   public static build(target: Structure, creep: Creep, resourceType: string, amount: number): reservation {

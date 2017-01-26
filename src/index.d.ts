@@ -1,8 +1,3 @@
-// import {reservation, ReservationMemory} from "./components/reservation";
-// import {task, TaskMemory} from "./components/task";
-// import {subtask, SubtaskMemory} from "./components/subtask";
-// import {StructureMemory} from "./components/nativeExtensions/Structure";
-
 interface Memory {
   uuid: number;
   log: any;
@@ -31,21 +26,31 @@ interface Game {
 }
 
 interface Local {
-  subtasks: hashTable<any>;//hashTable<subtask>;
-  tasks: hashTable<any>;//hashTable<task>;
-  reservations: hashTable<any>;//hashTable<reservation>;
+  subtasks: hashTable<subtask>;//hashTable<subtask>;
+  tasks: hashTable<task>;//hashTable<task>;
+  reservations: hashTable<reservation>;//hashTable<reservation>;
 }
+
+interface subtask {}
+
+interface task {}
+
+interface reservation {}
 
 interface Creep {
   acted: boolean;
-  reservations(): any[]; //reservation[];
-  _reservations: any[]; //reservation[];
+  reservations(): reservation[]; //reservation[];
+  _reservations: reservation[]; //reservation[];
   reservationsChanged: boolean;
+  capacityAvailable(): number;
+  _capacityAvailable: number;
+  currentTask(): task; //task
+  _currentTask: task;  //task
 }
 
 interface Structure {
-  reservations(): any[]; //reservation[];
-  _reservations: any[]; //reservation[];
+  reservations(): reservation[]; //reservation[];
+  _reservations: reservation[]; //reservation[];
   reservationsChanged: boolean;
   resourceAvailable(resourceType: string): number;
   _resourceEnergyAvailable: number;
