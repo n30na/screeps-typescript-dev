@@ -1,4 +1,4 @@
-export class operation {
+export class Operation {
   protected _name: string;
   protected runFunction: Function;
 

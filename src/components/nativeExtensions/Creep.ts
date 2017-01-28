@@ -1,7 +1,7 @@
-import {reservation} from "../reservation";
+import {Reservation} from "../Reservation";
 
-Creep.prototype.reservations = function (): reservation[] {
-  let creepReservations: reservation[] = new Array();
+Creep.prototype.reservations = function (): Reservation[] {
+  let creepReservations: Reservation[] = new Array();
 
   return creepReservations;
 }

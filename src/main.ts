@@ -3,10 +3,10 @@ import * as Config from "/config/config";
 import * as Operations from "./components/operations/all"
 
 import { log } from "./components/support/log";
-import {operation} from "./components/operation";
-import {subtask} from "./components/subtask";
-import {task} from "./components/task";
-import {reservation} from "./components/reservation";
+import {Operation} from "./components/Operation";
+import {Subtask} from "./components/Subtask";
+import {Task} from "./components/Task";
+import {Reservation} from "./components/Reservation";
 
 // Any code written outside the `loop()` method is executed only when the
 // Screeps system reloads your script.

@@ -1,4 +1,4 @@
-import {operation} from "../operation";
+import {Operation} from "../Operation";
 
 let run: Function = (creep: Creep, params: any) => {
   let result = 0;
@@ -14,7 +14,7 @@ let run: Function = (creep: Creep, params: any) => {
   return result;
 }
 
-export const heal = new operation("heal", run);
+export const heal = new Operation("heal", run);
 
 // export class heal extends operation {
 //   public static name: string = "heal";

@@ -1,34 +1,34 @@
-import { subtask } from "../components/subtask";
-import { reservation } from "../components/reservation";
+import { Subtask } from "./Subtask";
+import { Reservation } from "./Reservation";
 import { generateId } from "../components/support/idGenerator";
 
-export class task {
+export class Task {
   protected id: string;
   protected creepId: string;
   protected _creep: any;
   protected subtaskIds: string[];
-  protected _subtasks: subtask[] | undefined = undefined;
-  protected _currentSubtask: subtask | undefined = undefined;
+  protected _subtasks: Subtask[] | undefined = undefined;
+  protected _currentSubtask: Subtask | undefined = undefined;
   protected currentSubtaskIndex: number;
   protected reservationIds: string[];
-  protected _reservations: reservation[] | undefined = undefined;
+  protected _reservations: Reservation[] | undefined = undefined;
   protected _completed: boolean = false;
 
-  public static getById(id: string): task {
+  public static getById(id: string): Task {
     if(!Game.local.tasks[id]) {
       let t = Memory.tasks[id];
-      Game.local.tasks[id] = new task(id, t.creepId, t.subtaskIds, t.currentSubtaskIndex, t.reservationIds, t.completed);
+      Game.local.tasks[id] = new Task(id, t.creepId, t.subtaskIds, t.currentSubtaskIndex, t.reservationIds, t.completed);
     }
-    return <task>Game.local.tasks[id];
+    return <Task>Game.local.tasks[id];
   }
 
-  public static getByCreep(creep: Creep): task[] {
-    let creepTasks: task[] = new Array();
+  public static getByCreep(creep: Creep): Task[] {
+    let creepTasks: Task[] = new Array();
 
     return creepTasks;
   }
 
-  public static build(creep: Creep, subtasks: subtask[], reservations: reservation[]): task {
+  public static build(creep: Creep, subtasks: Subtask[], reservations: Reservation[]): Task {
     let id: string = generateId();
     let creepId: string = creep.id;
     let subtaskIds: string[] = new Array();
@@ -41,7 +41,7 @@ export class task {
       reservationsIds[iterator] = reservations[iterator].id;
     }
 
-    let newtask = new task(id, creepId, subtaskIds, 0, reservationsIds, false);
+    let newtask = new Task(id, creepId, subtaskIds, 0, reservationsIds, false);
     newtask.writeMemory();
 
     return newtask;
@@ -64,17 +64,17 @@ export class task {
     return this._creep;
   }
 
-  get subtasks(): subtask[] {
+  get subtasks(): Subtask[] {
     if(this._subtasks === undefined) {
       this._subtasks = new Array();
       for(let subtaskId in this.subtaskIds) {
-        this._subtasks.concat(subtask.getById(subtaskId)); // test
+        this._subtasks.concat(Subtask.getById(subtaskId)); // test
       }
     }
     return this._subtasks;
   }
 
-  get currentSubtask(): subtask {
+  get currentSubtask(): Subtask {
     if(this._currentSubtask === undefined) {
       this._currentSubtask = this.subtasks[this.currentSubtaskIndex];
     }
@@ -85,7 +85,7 @@ export class task {
     if(this._reservations === undefined) {
       this._reservations = new Array();
       for(let reservationId in this.reservationIds) {
-        this._reservations.concat(reservation.getById(reservationId));
+        this._reservations.concat(Reservation.getById(reservationId));
       }
     }
     return this._reservations;

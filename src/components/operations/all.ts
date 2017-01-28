@@ -28,7 +28,7 @@
 //
 // export var operations = operationList;
 
-import {operation} from "../operation";
+import {Operation} from "../Operation";
 import {attack} from "./attack";
 import {build} from "./build";
 import {dismantle} from "./dismantle";
@@ -55,7 +55,7 @@ export * from "./transfer";
 export * from "./upgrade";
 export * from "./withdraw";
 
-let allops: hashTable<operation> = {};
+let allops: hashTable<Operation> = {};
 
 allops["attack"] =  attack;
 allops["build"] = build;

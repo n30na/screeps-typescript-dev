@@ -26,9 +26,9 @@ interface Game {
 }
 
 interface Local {
-  subtasks: hashTable<subtask>;//hashTable<subtask>;
-  tasks: hashTable<task>;//hashTable<task>;
-  reservations: hashTable<reservation>;//hashTable<reservation>;
+  subtasks: hashTable<subtask>;//hashTable<Subtask>;
+  tasks: hashTable<task>;//hashTable<Task>;
+  reservations: hashTable<reservation>;//hashTable<Reservation>;
 }
 
 interface subtask {}
@@ -39,18 +39,18 @@ interface reservation {}
 
 interface Creep {
   acted: boolean;
-  reservations(): reservation[]; //reservation[];
-  _reservations: reservation[]; //reservation[];
+  reservations(): reservation[]; //Reservation[];
+  _reservations: reservation[]; //Reservation[];
   reservationsChanged: boolean;
   capacityAvailable(): number;
   _capacityAvailable: number;
-  currentTask(): task; //task
-  _currentTask: task;  //task
+  currentTask(): task; //Task
+  _currentTask: task;  //Task
 }
 
 interface Structure {
-  reservations(): reservation[]; //reservation[];
-  _reservations: reservation[]; //reservation[];
+  reservations(): reservation[]; //Reservation[];
+  _reservations: reservation[]; //Reservation[];
   reservationsChanged: boolean;
   resourceAvailable(resourceType: string): number;
   _resourceEnergyAvailable: number;

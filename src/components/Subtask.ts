@@ -1,11 +1,11 @@
-import { operation } from "../components/operation"
+import { Operation } from "./Operation"
 import {generateId} from "./support/idGenerator";
 import {all as Operations} from "./operations/all"
 
-export class subtask {
+export class Subtask {
   protected _id: string;
   protected operationName: string;
-  protected _taskOperation: operation;
+  protected _taskOperation: Operation;
   protected creepId: string;
   protected _creep: any = undefined;
   protected params: Object;
@@ -17,25 +17,25 @@ export class subtask {
     this.params = params;
   }
 
-  public static getById(id: string): subtask {
+  public static getById(id: string): Subtask {
     if(!Game.local.subtasks[id]) {
       let s = Memory.subtasks[id];
-      Game.local.subtasks[id] = new subtask(id, s.operationName, s.creepId, s.params);
+      Game.local.subtasks[id] = new Subtask(id, s.operationName, s.creepId, s.params);
     }
-    return <subtask>Game.local.subtasks[id];
+    return <Subtask>Game.local.subtasks[id];
   }
 
-  public static build(taskOperation: operation, creep: Creep, params: Object): subtask {
+  public static build(taskOperation: Operation, creep: Creep, params: Object): Subtask {
     let id: string = generateId();
     let operationName: string = taskOperation.name;
     let creepId: string = creep.id;
 
-    let newSubtask: subtask = new subtask(id, operationName, creepId, params);
+    let newSubtask: Subtask = new Subtask(id, operationName, creepId, params);
     newSubtask.writeMemory();
     return newSubtask;
   }
 
-  get operation(): operation {
+  get operation(): Operation {
     if(!this._taskOperation) {
       this._taskOperation = Operations[this.operationName];
     }

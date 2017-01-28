@@ -1,8 +1,8 @@
 
 import {generateId} from "./support/idGenerator";
-import {subtask} from "./subtask";
+import {Subtask} from "./Subtask";
 
-export class reservation {
+export class Reservation {
   protected _id: string;
   protected targetId: string;
   protected _target: Structure | undefined = undefined;
@@ -13,46 +13,46 @@ export class reservation {
   protected _createdAt: number;
   protected _active: boolean = false;
 
-  public static getById(id: string): reservation {
+  public static getById(id: string): Reservation {
     if(!Game.local.reservations[id]) {
       let r = Memory.reservations[id];
-      Game.local.reservations[id] = new reservation(id, r.targetId, r.creepId, r.resourceType, r.amount, r.createdAt, r.active);
+      Game.local.reservations[id] = new Reservation(id, r.targetId, r.creepId, r.resourceType, r.amount, r.createdAt, r.active);
     }
-    return <reservation>Game.local.reservations[id];
+    return <Reservation>Game.local.reservations[id];
   }
 
-  public static getByTargetId(id: string): reservation[] {
-    let targetReservations: reservation[] = new Array();
+  public static getByTargetId(id: string): Reservation[] {
+    let targetReservations: Reservation[] = new Array();
 
     return targetReservations;
   }
 
-  public static getByTarget(target: Structure): reservation[] {
+  public static getByTarget(target: Structure): Reservation[] {
     let id: string = target.id;
-    let targetReservations: reservation[] = new Array();
+    let targetReservations: Reservation[] = new Array();
 
     return targetReservations;
   }
 
-  public static getByCreep(creep: Creep): reservation[] {
+  public static getByCreep(creep: Creep): Reservation[] {
     let id: string = creep.id;
-    let creepReservations: reservation[] = new Array();
+    let creepReservations: Reservation[] = new Array();
 
     return creepReservations;
   }
 
-  public static getByCreepId(id: string): reservation[] {
-    let creepReservations: reservation[] = new Array();
+  public static getByCreepId(id: string): Reservation[] {
+    let creepReservations: Reservation[] = new Array();
 
     return creepReservations;
   }
 
-  public static build(target: Structure, creep: Creep, resourceType: string, amount: number): reservation {
+  public static build(target: Structure, creep: Creep, resourceType: string, amount: number): Reservation {
     let id = generateId();
     let createdAt = Game.time;
     let active = false;
 
-    let newReservation = new reservation(id, target.id, creep.id, resourceType, amount, createdAt, active);
+    let newReservation = new Reservation(id, target.id, creep.id, resourceType, amount, createdAt, active);
     newReservation.writeMemory();
     return newReservation;
   }

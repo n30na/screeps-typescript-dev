@@ -1,10 +1,10 @@
-import {reservation} from "../reservation";
+import {Reservation} from "../Reservation";
 /**
  * Created by neona on 1/25/2017.
  */
 
-Structure.prototype.reservations = function (): reservation[] {
-  let stuructureReservations: reservation[] =  new Array();
+Structure.prototype.reservations = function (): Reservation[] {
+  let stuructureReservations: Reservation[] =  new Array();
 
   return stuructureReservations;
 }
