@@ -7,6 +7,8 @@ interface Memory {
   tasks: hashTable<any>; //hashTable<TaskMemory>;
   subtasks: hashTable<any>; //hashTable<SubtaskMemory>;
   reservations: hashTable<any>; //hashTable<ReservationMemory>;
+  spawnRequests: hashTable<any>;
+  spawnQueues: hashTable<any>;
 }
 
 declare function require(path: string): any;
@@ -26,31 +28,33 @@ interface Game {
 }
 
 interface Local {
-  subtasks: hashTable<subtask>;//hashTable<Subtask>;
-  tasks: hashTable<task>;//hashTable<Task>;
-  reservations: hashTable<reservation>;//hashTable<Reservation>;
+  subtasks: hashTable<Subtask>;//hashTable<Subtask>;
+  tasks: hashTable<Task>;//hashTable<Task>;
+  reservations: hashTable<Reservation>;//hashTable<Reservation>;
+  spawnRequests: hashTable<SpawnRequest;
+  spawnQueues: hashTable<SpawnQueue>;
 }
 
-interface subtask {}
-
-interface task {}
-
-interface reservation {}
+interface Subtask {}
+interface Task {}
+interface Reservation {}
+interface SpawnRequest{}
+interface SpawnQueue {}
 
 interface Creep {
   acted: boolean;
-  reservations(): reservation[]; //Reservation[];
-  _reservations: reservation[]; //Reservation[];
+  reservations(): Reservation[]; //Reservation[];
+  _reservations: Reservation[]; //Reservation[];
   reservationsChanged: boolean;
   capacityAvailable(): number;
   _capacityAvailable: number;
-  currentTask(): task; //Task
-  _currentTask: task;  //Task
+  currentTask(): Task; //Task
+  _currentTask: Task;  //Task
 }
 
 interface Structure {
-  reservations(): reservation[]; //Reservation[];
-  _reservations: reservation[]; //Reservation[];
+  reservations(): Reservation[]; //Reservation[];
+  _reservations: Reservation[]; //Reservation[];
   reservationsChanged: boolean;
   resourceAvailable(resourceType: string): number;
   _resourceEnergyAvailable: number;
@@ -64,4 +68,9 @@ interface StructureMemory {
   updated: boolean;
   resourceEnergyAvailable: number;
   capacityAvailable: number;
+}
+
+interface Room {
+  creeps(): Creep[];
+  assignedCreeps(): Creep[];
 }
