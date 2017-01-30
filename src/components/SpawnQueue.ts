@@ -7,8 +7,17 @@ import {SpawnRequest} from "./SpawnRequest";
 export class SpawnQueue {
   protected _id: string;
   protected _requests: SpawnRequest[];
+  protected _requestIds: string[];
   protected _sortedRequests: SpawnRequest[] | undefined;
   protected changed: boolean = false;
+
+  public static build(): SpawnQueue {
+
+  }
+
+  public static getById(id: string): SpawnQueue {
+
+  }
 
   constructor(id: string, requests: SpawnRequest[]) {
     this._id = id;
@@ -17,9 +26,10 @@ export class SpawnQueue {
     this._sortedRequests = undefined;
   }
 
-  public requests() {
+  public get requests(): SpawnRequest[] {
     if(!this._sortedRequests || this.changed) {
-      this._sortedRequests = _.sortBy(this._requests, [ function(r: SpawnRequest) { return r.priority}, function(r: SpawnRequest) { return r.createdAt}]);
+      this._sortedRequests = _.sortBy(this._requests,
+        ["priority", "createdAt"]);
       this.changed = false;
     }
     return this._sortedRequests;
@@ -30,7 +40,10 @@ export class SpawnQueue {
     this.changed = true;
   }
   public pop(): SpawnRequest {
-
+    let popRequest: SpawnRequest = this.requests[0];
+    this._requests = this.requests;
+    this._requests.splice(0, 1);
+    return popRequest;
   }
   public writeMemory() {
 
