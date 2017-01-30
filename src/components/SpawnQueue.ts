@@ -6,10 +6,7 @@ import {SpawnRequest} from "./SpawnRequest";
 
 export class SpawnQueue {
   protected _id: string;
-  protected _requests: SpawnRequest[];
-  protected _requestIds: string[];
   protected _sortedRequests: SpawnRequest[] | undefined;
-  protected changed: boolean = false;
 
   public static build(): SpawnQueue {
 
@@ -19,20 +16,38 @@ export class SpawnQueue {
 
   }
 
-  constructor(id: string, requests: SpawnRequest[]) {
+  constructor(id: string) {
     this._id = id;
-    this._requests = requests;
-    this.changed = false;
-    this._sortedRequests = undefined;
   }
 
   public get requests(): SpawnRequest[] {
     if(!this._sortedRequests || this.changed) {
-      this._sortedRequests = _.sortBy(this._requests,
-        ["priority", "createdAt"]);
+      this._sortedRequests = _.sortBy(this._requests, ["priority", "createdAt"]);
       this.changed = false;
     }
     return this._sortedRequests;
+    //redo
+  }
+  public get _requests(): SpawnRequest[] {
+    let requests: SpawnRequest[] = new Array();
+    //implement on the fly conversion of ids to objects
+
+    return requests;
+  }
+  public get id() {
+    return this._id;
+  }
+  public get changed(): boolean {
+    return Memory.spawnQueues[this.id].changed;
+  }
+  public set changed(newChanged: boolean) {
+    Memory.spawnQueues[this.id].changed = newChanged;
+  }
+  public get requestIds(): string[] {
+    return Memory.spawnQueues[this.id].requestIds;
+  }
+  public set requestIds(newIds: string[]) {
+    Memory.spawnQueues[this.id].requestIds = newIds;
   }
 
   public push(spawnRequest: SpawnRequest) {
@@ -44,9 +59,6 @@ export class SpawnQueue {
     this._requests = this.requests;
     this._requests.splice(0, 1);
     return popRequest;
-  }
-  public writeMemory() {
-
   }
   public deleteMemory() {
     delete Memory.spawnQueues[this._id];
