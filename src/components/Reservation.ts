@@ -4,14 +4,8 @@ import {Subtask} from "./Subtask";
 
 export class Reservation {
   protected _id: string;
-  protected targetId: string;
   protected _target: Structure | undefined = undefined;
-  protected creepId: string;
   protected _creep: Creep | undefined = undefined;
-  protected _resourceType: string;
-  protected _amount: number;
-  protected _createdAt: number;
-  protected _active: boolean = false;
 
   public static getById(id: string): Reservation {
     if(!Game.local.reservations[id]) {
@@ -74,8 +68,41 @@ export class Reservation {
   get age(): number {
     return Game.time - this._createdAt;
   }
+  get createdAt(): number {
+    return Memory.reservations[this.id].createdAt;
+  }
+  set createdAt(newTime: number) {
+    Memory.reservations[this.id].createdAt = newTime;
+  }
+  get creepId(): string {
+    Memory.reservations[this.id].creepId;
+  }
+  set creepId(newId: string) {
+    Memory.reservations[this.id].creepId = newId;
+  }
+  get targetId(): string {
+    return Memory.reservations[this.id].targetId;
+  }
+  set targetId(newTarget: string) {
+    Memory.reservations[this.id].targetId = newTarget;
+  }
   get active(): boolean {
-    return this._active;
+    return Memory.reservations[this.id].active;
+  }
+  set active(newState: boolean) {
+    Memory.reservations[this.id].active = newState;
+  }
+  get resourceType(): string {
+    return Memory.reservations[this.id].resourceType;
+  }
+  set resourceType(newType: string) {
+    Memory.reservations[this.id].resourceType = newType;
+  }
+  get amount(): number {
+    return Memory.reservations[this.id].amount;
+  }
+  set amount(newAmount: number) {
+    Memory.reservations[this.id].amount = newAmount;
   }
   get id(): string {
     return this._id;
