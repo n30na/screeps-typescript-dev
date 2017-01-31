@@ -4,11 +4,8 @@ import {all as Operations} from "./operations/all"
 
 export class Subtask {
   protected _id: string;
-  protected operationName: string;
   protected _taskOperation: Operation;
-  protected creepId: string;
   protected _creep: any = undefined;
-  protected params: Object;
 
   public constructor(id: string, operationName: string, creepId: string, params: Object) {
     this._id = id;
@@ -51,6 +48,25 @@ export class Subtask {
 
   get id(): string {
     return this._id;
+  }
+
+  get creepId(): string {
+    return Memory.subtasks[this.id].creepId;
+  }
+  set creepId(newId: string) {
+    Memory.subtasks[this.id].creepId = newId;
+  }
+  get operationName(): string {
+    return Memory.subtasks[this.id].operationName;
+  }
+  set operationName(newOperation) {
+    Memory.subtasks[this.id].operationName = newOperation;
+  }
+  get params(): Object {
+    return Memory.subtasks[this.id].params;
+  }
+  set params(newParams: Object) {
+    Memory.subtasks[this.id].params = newParams;
   }
 
   run(): number {
