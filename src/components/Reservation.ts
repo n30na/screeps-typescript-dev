@@ -9,8 +9,7 @@ export class Reservation {
 
   public static getById(id: string): Reservation {
     if(!Game.local.reservations[id]) {
-      let r = Memory.reservations[id];
-      Game.local.reservations[id] = new Reservation(id, r.targetId, r.creepId, r.resourceType, r.amount, r.createdAt, r.active);
+      Game.local.reservations[id] = new Reservation(id);
     }
     return <Reservation>Game.local.reservations[id];
   }
@@ -45,28 +44,25 @@ export class Reservation {
     let id = generateId();
     let createdAt = Game.time;
     let active = false;
+    Memory.reservations[id] = <ReservationMemory>{};
 
-    let newReservation = new Reservation(id, target.id, creep.id, resourceType, amount, createdAt, active);
+    let newReservation = new Reservation(id);
+    newReservation.targetId = target.id;
+    newReservation.creepId = creep.id;
+    newReservation.resourceType = resourceType;
+    newReservation.amount = amount;
+    newReservation.createdAt = createdAt;
+    newReservation.active = active;
     newReservation.writeMemory();
     return newReservation;
   }
 
-  public constructor(id: string, targetId: string, creepId: string, resourceType: string,
-                     amount: number, createdAt: number, active: boolean) {
+  public constructor(id: string) {
     this._id = id;
-    this.targetId = targetId;
-    this.creepId = creepId;
-    this._resourceType = resourceType;
-    this._amount = amount;
-    this._createdAt = createdAt;
-    this._active = active;
   }
 
-  get createdAt(): number {
-    return this._createdAt;
-  }
   get age(): number {
-    return Game.time - this._createdAt;
+    return Game.time - this.createdAt;
   }
   get createdAt(): number {
     return Memory.reservations[this.id].createdAt;
@@ -75,7 +71,7 @@ export class Reservation {
     Memory.reservations[this.id].createdAt = newTime;
   }
   get creepId(): string {
-    Memory.reservations[this.id].creepId;
+    return Memory.reservations[this.id].creepId;
   }
   set creepId(newId: string) {
     Memory.reservations[this.id].creepId = newId;
@@ -107,12 +103,24 @@ export class Reservation {
   get id(): string {
     return this._id;
   }
+  get target(): Structure {
+    if (!this._target) {
+      this._target = <Structure>Game.getObjectById(this.targetId);
+    }
+    return this._target;
+  }
+  get creep(): Creep {
+    if (!this._creep) {
+      this._creep = <Creep>Game.getObjectById(this.targetId);
+    }
+    return this._creep;
+  }
 
   public activate(): number {
     let result = 0;
-    if (!this._active) {
-
-      this._active = true;
+    if (!this.active) {
+      // code to commit reservation
+      this.active = true;
       result = 1;
     }
 
@@ -121,26 +129,12 @@ export class Reservation {
 
   public deactivate(): number {
     let result = 0;
-    if (this._active) {
-
-      this._active = true;
+    if (this.active) {
+      // code to remove reservation
+      this.active = true;
       result = 1;
     }
     return result;
-  }
-
-  public writeMemory() {
-    let reservationMemory: ReservationMemory = <ReservationMemory>{};
-
-    reservationMemory.creepId = this.creepId;
-    reservationMemory.targetId = this.targetId;
-    reservationMemory.id = this.id;
-    reservationMemory.resourceType = this._resourceType;
-    reservationMemory.amount = this._amount;
-    reservationMemory.createdAt = this.createdAt;
-    reservationMemory.active = this.active;
-
-    Memory.reservations[this.id] = reservationMemory;
   }
 
   public deleteMemory() {
