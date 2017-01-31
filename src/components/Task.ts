@@ -4,15 +4,11 @@ import { generateId } from "../components/support/idGenerator";
 
 export class Task {
   protected id: string;
-  protected creepId: string;
   protected _creep: any;
-  protected subtaskIds: string[];
   protected _subtasks: Subtask[] | undefined = undefined;
   protected _currentSubtask: Subtask | undefined = undefined;
-  protected currentSubtaskIndex: number;
   protected reservationIds: string[];
   protected _reservations: Reservation[] | undefined = undefined;
-  protected _completed: boolean = false;
 
   public static getById(id: string): Task {
     if(!Game.local.tasks[id]) {
@@ -57,13 +53,36 @@ export class Task {
     this._completed = completed;
   }
 
-  get creep() {
+  get creep(): Creep {
     if(this._creep === undefined) {
       this._creep = Game.getObjectById(this.creepId);
     }
     return this._creep;
   }
-
+  get creepId(): string {
+    return Memory.tasks[this.id].creepId;
+  }
+  set creepId(newId: string) {
+    Memory.tasks[this.id].creepId = newId;
+  }
+  get subtaskIds(): string[] {
+    return Memory.tasks[this.id].subtaskIds;
+  }
+  set subtaskIds(newIds: string[]) {
+    Memory.tasks[this.id].subtaskIds = newIds;
+  }
+  get currentSubtaskIndex(): number {
+    return Memory.tasks[this.id].currentSubtaskIndex;
+  }
+  set currentSubtaskIndex(newSubtaskIndex: number) {
+    Memory.tasks[this.id] = newSubtaskIndex;
+  }
+  get completed(): boolean {
+    return Memory.tasks[this.id].completed;
+  }
+  set completed(newCompleted: boolean) {
+    Memory.tasks[this.id].completed = newCompleted;
+  }
   get subtasks(): Subtask[] {
     if(this._subtasks === undefined) {
       this._subtasks = new Array();
@@ -89,10 +108,6 @@ export class Task {
       }
     }
     return this._reservations;
-  }
-
-  get completed(): boolean {
-    return this._completed;
   }
 
   run(): number {
