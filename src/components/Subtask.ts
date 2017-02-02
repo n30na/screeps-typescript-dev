@@ -7,17 +7,13 @@ export class Subtask {
   protected _taskOperation: Operation;
   protected _creep: any = undefined;
 
-  public constructor(id: string, operationName: string, creepId: string, params: Object) {
+  public constructor(id: string) {
     this._id = id;
-    this.operationName = operationName;
-    this.creepId = creepId;
-    this.params = params;
   }
 
   public static getById(id: string): Subtask {
     if(!Game.local.subtasks[id]) {
-      let s = Memory.subtasks[id];
-      Game.local.subtasks[id] = new Subtask(id, s.operationName, s.creepId, s.params);
+      Game.local.subtasks[id] = new Subtask(id);
     }
     return <Subtask>Game.local.subtasks[id];
   }
@@ -27,8 +23,14 @@ export class Subtask {
     let operationName: string = taskOperation.name;
     let creepId: string = creep.id;
 
-    let newSubtask: Subtask = new Subtask(id, operationName, creepId, params);
-    newSubtask.writeMemory();
+    let newSubtask: Subtask = new Subtask(id);
+    Memory.subtasks[id] = <SubtaskMemory>{};
+
+    newSubtask.operationName = operationName;
+    newSubtask.creepId = creepId;
+    newSubtask.params = params;
+
+    Memory.subtasks[id] = newSubtask;
     return newSubtask;
   }
 
@@ -71,16 +73,6 @@ export class Subtask {
 
   run(): number {
     return this.operation.run(this.creep, this.params);
-  }
-
-  public writeMemory() {
-    let subtaskMemory: SubtaskMemory = <SubtaskMemory>{};
-    subtaskMemory.creepId = this.creepId;
-    subtaskMemory.operationName = this.operationName;
-    subtaskMemory.id = this.id;
-    subtaskMemory.params = this.params;
-
-    Memory.subtasks[this.id] = subtaskMemory;
   }
 
   public deleteMemory() {
