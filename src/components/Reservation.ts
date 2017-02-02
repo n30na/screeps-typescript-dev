@@ -1,6 +1,4 @@
-
 import {generateId} from "./support/idGenerator";
-import {Subtask} from "./Subtask";
 
 export class Reservation {
   protected _id: string;
