@@ -1,4 +1,5 @@
 import {SpawnRequest} from "./SpawnRequest";
+import {generateId} from "./support/idGenerator";
 /**
  * Created by neona on 1/22/2017.
  */
@@ -9,11 +10,20 @@ export class SpawnQueue {
   protected _sortedRequests: SpawnRequest[] | undefined;
 
   public static build(): SpawnQueue {
+    let id: string = generateId();
+    let newSpawnQueue: SpawnQueue = new SpawnQueue(id);
+    Memory.spawnQueues[id] = <SpawnQueueMemory>{};
+    newSpawnQueue.changed = true;
+    newSpawnQueue.requestIds = new Array();
 
+    return newSpawnQueue;
   }
 
   public static getById(id: string): SpawnQueue {
-
+    if(!Game.local.spawnQueues[id]) {
+      Game.local.spawnQueues[id] = new SpawnQueue(id);
+    }
+    return <SpawnQueue>Game.local.spawnQueues[id];
   }
 
   constructor(id: string) {
@@ -63,4 +73,10 @@ export class SpawnQueue {
   public deleteMemory() {
     delete Memory.spawnQueues[this._id];
   }
+}
+
+export interface SpawnQueueMemory {
+  id: string;
+  changed: boolean;
+  requestIds: string[];
 }

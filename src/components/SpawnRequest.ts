@@ -7,18 +7,24 @@ import {generateId} from "./support/idGenerator";
 export class SpawnRequest {
   protected _id: string;
 
-  public static build(body: string[], priority: number): SpawnRequest {
+  public static build(body: string[], priority: number, memory: Object): SpawnRequest {
     let id: string = generateId();
     let createdAt: number = Game.time;
     let newRequest: SpawnRequest = new SpawnRequest(id);
-    newRequest.createdAt = createdAt
+    newRequest.createdAt = createdAt;
     newRequest.body = body;
     newRequest.priority = priority;
+    newRequest.memory = memory;
+
+    Game.local.spawnRequests[id] = newRequest;
     return newRequest;
   }
 
   public static getById(id: string): SpawnRequest {
-    return new SpawnRequest(id);
+    if(!Game.local.spawnRequests[id]) {
+      Game.local.spawnRequests[id] = new SpawnRequest(id);
+    }
+    return <SpawnRequest>Game.local.spawnRequests[id];
   }
 
   constructor(id: string) {
@@ -46,6 +52,12 @@ export class SpawnRequest {
   public set createdAt(newCreatedTime: number) {
     Memory.spawnRequests[this.id].createdAt = newCreatedTime;
   }
+  public get memory(): Object {
+    return Memory.spawnRequests[this.id].memory;
+  }
+  public set memory(newMemory: Object) {
+    Memory.spawnRequests[this.id].memory = newMemory;
+  }
   public deleteMemory() {
     delete Memory.spawnRequests[this.id];
   }
@@ -56,4 +68,5 @@ export interface SpawnRequestMemory {
   body: string[];
   priority: number;
   createdAt: number;
+  memory: Object;
 }
