@@ -33,6 +33,7 @@ interface Local {
   reservations: hashTable<Reservation>;//hashTable<Reservation>;
   spawnRequests: hashTable<SpawnRequest;
   spawnQueues: hashTable<SpawnQueue>;
+  spawnRoomIds: string[];
 }
 
 interface Subtask {}

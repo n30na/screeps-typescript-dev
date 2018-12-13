@@ -32,8 +32,10 @@ log.info("load");
 
 function prepEnvironment() {
   if (!Game.local) {
-    Game.local = {subtasks: {}, tasks: {}, reservations: {}};
+    Game.local = {subtasks: {}, tasks: {}, reservations: {}, spawnRequests: {}, spawnRoomIds: new Array(), spawnQueues: {}};
+    //Game.local = <Local>{};
   }
+  Game.mySpawns = {};
 
   // if (!Game.local.subtasks) {
   //   Game.local.subtasks = new Array();
