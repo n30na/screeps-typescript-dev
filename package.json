@@ -21,7 +21,7 @@
   "license": "MIT",
   "devDependencies": {
     "deep-equal": "^1.0.1",
-    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp": "4.0",
     "gulp-clean": "^0.3.2",
     "gulp-collect": "^0.1.0",
     "gulp-rename": "^1.2.2",
@@ -43,5 +43,8 @@
     "webpack-stream": "^3.2.0",
     "source-map": "^0.5.6",
     "simple-git": "^1.61.0"
+  },
+  "dependencies": {
+    "screeps-typescript-declarations": "^4.2.1"
   }
 }
